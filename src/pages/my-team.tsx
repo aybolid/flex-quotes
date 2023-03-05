@@ -73,9 +73,9 @@ const CreateTeam = () => {
             initial={{ x: 200 }}
             className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-8"
           >
-            <div className="p-4 bg-zinc-800 rounded-md">
+            <div className="p-6 bg-zinc-800 rounded-md border border-cyan-300 outline outline-8 outline-zinc-800">
               <section className="mb-8">
-                <h4 className="flex justify-center items-end gap-2 text-3xl text-cyan-300">
+                <h2 className="flex justify-center items-end gap-2 text-3xl text-cyan-300">
                   {team[0].name}
                   <CopyToClipboard text={team[0].teamId}>
                     <button
@@ -85,11 +85,11 @@ const CreateTeam = () => {
                       {!copied ? team[0].teamId : "Copied!"}
                     </button>
                   </CopyToClipboard>
-                </h4>
+                </h2>
                 <p className="mt-2 flex justify-center items-center gap-2">
                   {displayCode ? (
                     <>
-                      Team passcode:{" "}
+                      Passcode:{" "}
                       <span className="text-cyan-300">{team[0].passcode}</span>
                       <button
                         onClick={() => setDisplayCode(false)}
@@ -101,7 +101,7 @@ const CreateTeam = () => {
                     </>
                   ) : (
                     <>
-                      Team passcode:{" "}
+                      Passcode:{" "}
                       <span className="text-cyan-300">
                         {"#".repeat(team[0].passcode.length)}
                       </span>
@@ -117,7 +117,7 @@ const CreateTeam = () => {
                 </p>
               </section>
               <section className="mt-4">
-                <h3 className="text-xl mb-1 font-thin">Actions</h3>
+                <h3 className="text-lg mb-1 font-thin md:text-xl">Actions</h3>
                 <div className="flex justify-between items-center gap-4">
                   <Link href="/add" className="btn-primary">
                     Add Quote 📝
@@ -128,8 +128,10 @@ const CreateTeam = () => {
                 </div>
               </section>
               <div className="mt-4">
-                <h3 className="text-xl mb-1 font-thin">Team Members</h3>
-                <section className="bg-zinc-900 p-4 rounded-md grid grid-cols-4 gap-2">
+                <h3 className="text-lg mb-1 font-thin md:text-xl">
+                  Team Members
+                </h3>
+                <section className="bg-zinc-900 p-4 rounded-md grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-h-80 overflow-x-hidden overflow-y-auto gap-4">
                   {teamMembers.map(
                     (member: {
                       id: string;
@@ -140,7 +142,7 @@ const CreateTeam = () => {
                       emailVerified: boolean;
                     }) => (
                       <div
-                        className="flex flex-col justify-center items-center"
+                        className="flex flex-col justify-center items-center p-2 rounded-md bg-zinc-800"
                         key={member.email}
                       >
                         <div className="rounded-full overflow-hidden w-14 h-14">
@@ -165,12 +167,13 @@ const CreateTeam = () => {
               </div>
               {team[0].creatorId === session?.user?.id && (
                 <div className="mt-4">
-                  <h3 className="text-xl text-red-500 mb-1 font-thin">
+                  <h3 className="text-lg md:text-xl text-red-500 mb-1 font-thin flex justify-between items-end">
                     Danger Zone
+                    <p className="text-sm font-mono text-red-500">x2 click</p>
                   </h3>
                   <section className="flex justify-center items-center gap-4 p-4 rounded-md border border-dashed border-red-500">
                     <button
-                      onClick={handleTeamDelete}
+                      onDoubleClick={handleTeamDelete}
                       className="btn-danger text-red-400 border-red-400"
                     >
                       Delete Team <RiDeleteBin5Fill className="mt-[2px]" />
@@ -181,7 +184,7 @@ const CreateTeam = () => {
             </div>
           </motion.main>
           <footer>
-            <p className="max-w-md text-center">
+            <p className="max-w-md mb-4 text-center">
               <span className="text-cyan-300">Flex Quotes</span> - website done
               for fun.
             </p>

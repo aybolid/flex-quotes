@@ -57,7 +57,12 @@ const AddQuote = () => {
           </form>
           <div className="bg-zinc-800 w-96 h-32">{watch("text")}</div>
         </motion.main>
-        <footer></footer>
+        <footer>
+          <p className="max-w-md mb-4 text-center">
+            <span className="text-cyan-300">Flex Quotes</span> - website done
+            for fun.
+          </p>
+        </footer>
       </motion.div>
     </>
   );

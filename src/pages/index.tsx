@@ -78,7 +78,7 @@ const Home = () => {
               <div className="grid grid-cols-1 gap-8 md:gap-16 md:grid-cols-2">
                 <HomeLink href="/add" title="Add Quote 📝" />
                 <HomeLink href="/" title="View Quotes 👀" />
-                <HomeLink href="/team/my-team" title="My Team 🫂" />
+                <HomeLink href="/my-team" title="My Team 🫂" />
                 <HomeLink href="/" title="In Progress..." />
               </div>
             </motion.main>
@@ -99,7 +99,7 @@ const Home = () => {
             </motion.main>
           )}
           <footer>
-            <p className="max-w-md text-center">
+            <p className="max-w-md mb-4 text-center">
               <span className="text-cyan-300">Flex Quotes</span> - website done
               for fun.
             </p>
@@ -132,7 +132,7 @@ const Home = () => {
           </div>
         </motion.main>
         <footer>
-          <p className="max-w-md text-center">
+          <p className="max-w-md mb-4 text-center">
             <span className="text-cyan-300">Flex Quotes</span> - website done
             for fun.
           </p>

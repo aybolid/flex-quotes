@@ -1,4 +1,4 @@
-import NextAuth, { Session } from "next-auth";
+import NextAuth, { Session, User } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
@@ -13,7 +13,7 @@ export const authOptions = {
     }),
   }),
   callbacks: {
-    session: async ({ session, token }) => {
+    session: async ({ session, token }: { session: Session; token: any }) => {
       if (session?.user) {
         session.user.id = token.sub;
       }

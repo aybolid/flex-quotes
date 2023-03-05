@@ -1,4 +1,6 @@
-const fetcher = async (...args: any[]) => {
+const fetcher = async (
+  ...args: [input: RequestInfo | URL, init?: RequestInit | undefined]
+) => {
   const res = await fetch(...args);
   return res.json();
 };

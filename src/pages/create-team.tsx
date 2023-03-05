@@ -107,7 +107,7 @@ const CreateTeam = () => {
           </form>
         </motion.main>
         <footer>
-          <p className="max-w-md text-center">
+          <p className="max-w-md mb-4 text-center">
             <span className="text-cyan-300">Flex Quotes</span> - website done
             for fun.
           </p>
