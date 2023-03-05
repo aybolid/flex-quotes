@@ -16,7 +16,8 @@ const schema = yup
     name: yup
       .string()
       .trim()
-      .required("Team name is required")
+      .required("Team name is required.")
+      .min(3, "Team name min length is 3 digits.")
       .max(15, "Team name max length is 15 digits.")
       .matches(
         /^[aA-zZ0-9аА-яЯіІґҐїЇєЄ]+$/,
@@ -24,7 +25,7 @@ const schema = yup
       ),
     teamId: yup
       .string()
-      .required("Team ID is required")
+      .required("Team ID is required.")
       .min(7, "Team ID length is 7 digits.")
       .max(7, "Team ID length is 7 digits.")
       .matches(
@@ -34,7 +35,8 @@ const schema = yup
     passcode: yup
       .string()
       .trim()
-      .required("Passcode is required")
+      .required("Passcode is required.")
+      .min(3, "Passcode min length is 3 digits.")
       .max(10, "Passcode max length is 10 digits.")
       .matches(
         /^[a-z0-9]+$/,
