@@ -1,4 +1,4 @@
-import NextAuth, { Session, User } from "next-auth";
+import NextAuth, { NextAuthOptions, Session, User } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
@@ -6,16 +6,16 @@ import { FirestoreAdapter } from "@next-auth/firebase-adapter";
 import { cert } from "firebase-admin/app";
 import firebaseConfig from "../../../../firebase.config";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: FirestoreAdapter({
     credential: cert({
       ...firebaseConfig,
     }),
   }),
   callbacks: {
-    session: async ({ session, token }: { session: Session; token: any }) => {
+    session: async ({ session, token }) => {
       if (session?.user) {
-        session.user.id = token.sub;
+        session.user.id = token.sub as string;
       }
       return session;
     },
