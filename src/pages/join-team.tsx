@@ -2,7 +2,7 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import { MdArrowBackIosNew } from "react-icons/md";
 import Link from "next/link";
-import { createTeam } from "@/lib/db";
+import { createTeam, joinTeam } from "@/lib/db";
 import UserBox from "@/components/UserBox";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
@@ -17,11 +17,19 @@ const schema = yup
       .string()
       .trim()
       .required("Team name is required")
-      .min(3, 'Team name min length is 3 digits')
       .max(15, "Team name max length is 15 digits.")
       .matches(
         /^[aA-zZ0-9аА-яЯіІґҐїЇєЄ]+$/,
         "Team name is not in the correct format. (aA-zZ, аА-яЯ, 0-9)"
+      ),
+    teamId: yup
+      .string()
+      .required("Team ID is required")
+      .min(7, "Team ID length is 7 digits.")
+      .max(7, "Team ID length is 7 digits.")
+      .matches(
+        /^[#][a-z0-9]+$/,
+        "Team ID is not in the correct format. (#[a-z, 0-9])"
       ),
     passcode: yup
       .string()
@@ -48,24 +56,8 @@ const CreateTeam = () => {
     resolver: yupResolver(schema),
   });
 
-  const handleTeamCreate = (data: FormData) => {
-    const userId = session?.user?.id as string;
-    const newTeam: {
-      name: string;
-      teamId: string;
-      passcode: string;
-      creatorId: string;
-      members: string[];
-    } = {
-      creatorId: userId,
-      teamId: "#" + uuidv4().slice(0, 6),
-      members: [userId],
-      ...data,
-    };
-
-    createTeam(newTeam, uuidv4(), userId)
-      .then(() => reset())
-      .then(() => router.push("/"));
+  const handleTeamJoin = (data: FormData) => {
+    joinTeam({ ...data }, session?.user?.id as string);
   };
 
   return (
@@ -80,7 +72,7 @@ const CreateTeam = () => {
       >
         <header>
           <h1 className="text-5xl md:text-6xl text-center font-thin capitalize">
-            Create Your Team
+            Join Team
           </h1>
           <UserBox />
         </header>
@@ -90,7 +82,7 @@ const CreateTeam = () => {
           className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-8"
         >
           <form
-            onSubmit={handleSubmit(handleTeamCreate)}
+            onSubmit={handleSubmit(handleTeamJoin)}
             className="bg-zinc-800 p-8 rounded-md flex flex-col gap-4 justify-center items-center border border-cyan-400 outline outline-8 outline-zinc-800"
           >
             <div className="flex flex-col justify-center items-center">
@@ -124,12 +116,41 @@ const CreateTeam = () => {
             )}
             <div className="flex flex-col justify-center items-center">
               <label
+                htmlFor="teamIdInput"
+                className={`${
+                  errors.teamId?.message && "text-red-500"
+                } text-xl w-full`}
+              >
+                Enter team ID
+              </label>
+              <input
+                {...register("teamId")}
+                autoComplete="off"
+                placeholder="#teamid"
+                type="text"
+                className={`${
+                  errors.teamId?.message && "border border-red-600"
+                } rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
+                id="teamIdInput"
+              />
+            </div>
+            {errors.teamId?.message && (
+              <motion.div
+                animate={{ height: "auto", opacity: 1 }}
+                initial={{ height: 0, opacity: 0 }}
+                className="text-center w-full max-w-[258px] border border-dashed border-red-500 rounded-md bg-zinc-900 text-red-500 font-mono"
+              >
+                <p className="p-1">{errors.teamId?.message}</p>
+              </motion.div>
+            )}
+            <div className="flex flex-col justify-center items-center">
+              <label
                 htmlFor="passcodeInput"
                 className={`${
                   errors.passcode?.message && "text-red-500"
                 } text-xl w-full`}
               >
-                Create passcode
+                Enter passcode
               </label>
               <input
                 {...register("passcode")}
@@ -157,7 +178,7 @@ const CreateTeam = () => {
                 Go back
               </Link>
               <button type="submit" className="btn-submit">
-                Create
+                Join
               </button>
             </div>
           </form>

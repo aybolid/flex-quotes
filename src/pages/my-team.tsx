@@ -9,10 +9,11 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { RiDeleteBin5Fill, RiVipCrownFill } from "react-icons/ri";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import { BiExit } from "react-icons/bi";
 import ReactLoading from "react-loading";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Link from "next/link";
-import { deleteTeam } from "@/lib/db";
+import { deleteTeam, leaveTeam } from "@/lib/db";
 
 const CreateTeam = () => {
   const router = useRouter();
@@ -37,6 +38,11 @@ const CreateTeam = () => {
 
   const handleTeamDelete = () => {
     deleteTeam(team[0].teamUid).then(() => router.push("/"));
+  };
+  const handleTeamLeave = () => {
+    leaveTeam(team[0].teamUid, session?.user?.id as string).then(() =>
+      router.push("/")
+    );
   };
 
   if (isLoadingTeam || isLoadingMembers) {
@@ -119,7 +125,7 @@ const CreateTeam = () => {
               <section className="mt-4">
                 <h3 className="text-lg mb-1 font-thin md:text-xl">Actions</h3>
                 <div className="flex justify-between items-center gap-4">
-                  <Link href="/add" className="btn-primary">
+                  <Link href="/add-quote" className="btn-primary">
                     Add Quote 📝
                   </Link>
                   <Link href="/" className="btn-primary">
@@ -157,7 +163,7 @@ const CreateTeam = () => {
                         <p className="flex justify-center items-center gap-1">
                           {member.name}{" "}
                           {team[0].creatorId === member.id && (
-                            <RiVipCrownFill className="text-yellow-300 mt-[0.5px]" />
+                            <RiVipCrownFill className="text-yellow-300 mt-[0.9px]" />
                           )}
                         </p>
                       </div>
@@ -165,22 +171,30 @@ const CreateTeam = () => {
                   )}
                 </section>
               </div>
-              {team[0].creatorId === session?.user?.id && (
-                <div className="mt-4">
-                  <h3 className="text-lg md:text-xl text-red-500 mb-1 font-thin flex justify-between items-end">
-                    Danger Zone
-                    <p className="text-sm font-mono text-red-500">x2 click</p>
-                  </h3>
-                  <section className="flex justify-center items-center gap-4 p-4 rounded-md border border-dashed border-red-500">
+              <div className="mt-4">
+                <h3 className="text-lg md:text-xl text-red-500 mb-1 font-thin flex justify-between items-end">
+                  Danger Zone
+                  <p className="text-sm font-mono text-red-500">x2 click</p>
+                </h3>
+                <section className="flex flex-col md:flex-row justify-center items-center gap-4 p-4 rounded-md border border-dashed border-red-500">
+                  {team[0].creatorId !== session?.user?.id && (
+                    <button
+                      onDoubleClick={handleTeamLeave}
+                      className="btn-danger text-red-400 border-red-400"
+                    >
+                      Leave Team <BiExit size={25} className="mt-[2px]" />
+                    </button>
+                  )}
+                  {team[0].creatorId === session?.user?.id && (
                     <button
                       onDoubleClick={handleTeamDelete}
                       className="btn-danger text-red-400 border-red-400"
                     >
                       Delete Team <RiDeleteBin5Fill className="mt-[2px]" />
                     </button>
-                  </section>
-                </div>
-              )}
+                  )}
+                </section>
+              </div>
             </div>
           </motion.main>
           <footer>

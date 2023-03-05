@@ -76,7 +76,7 @@ const Home = () => {
               className="flex flex-col justify-center items-center gap-8 py-8"
             >
               <div className="grid grid-cols-1 gap-8 md:gap-16 md:grid-cols-2">
-                <HomeLink href="/add" title="Add Quote 📝" />
+                <HomeLink href="/team/add-quote" title="Add Quote 📝" />
                 <HomeLink href="/" title="View Quotes 👀" />
                 <HomeLink href="/my-team" title="My Team 🫂" />
                 <HomeLink href="/" title="In Progress..." />
@@ -93,8 +93,8 @@ const Home = () => {
                 in order to add and view funny quotes.
               </p>
               <nav className="grid grid-cols-1 gap-8 md:gap-16 md:grid-cols-2">
-                <HomeLink href="/createteam" title="Create Team 🆕" />
-                <HomeLink href="/" title="Join Team 🫂" />
+                <HomeLink href="/create-team" title="Create Team 🆕" />
+                <HomeLink href="/join-team" title="Join Team 🫂" />
               </nav>
             </motion.main>
           )}
