@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/pages/api/auth/[...nextauth].ts"
+    "src/pages/api/auth/[...nextauth].js"
 , "lib/db.js"  ],
   "exclude": ["node_modules"]
 }

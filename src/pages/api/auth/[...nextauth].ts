@@ -1,14 +1,28 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import { FirestoreAdapter } from "@next-auth/firebase-adapter";
-import { db } from "../../../../lib/db";
+import { cert } from "firebase-admin/app";
+import firebaseConfig from "../../../../firebase.config";
 
 export const authOptions = {
-  // !! it breaks everything
-  // adapter: FirestoreAdapter(db),
-
+  adapter: FirestoreAdapter({
+    credential: cert({
+      ...firebaseConfig,
+    }),
+  }),
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID!,
