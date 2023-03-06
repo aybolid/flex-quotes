@@ -83,7 +83,7 @@ const CreateTeam = () => {
           <h1 className="text-5xl md:text-6xl text-center font-thin capitalize">
             Join Team
           </h1>
-          <UserBox />
+          <UserBox displayBack />
         </header>
         <motion.main
           animate={{ x: 0 }}
