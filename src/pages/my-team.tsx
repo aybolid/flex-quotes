@@ -7,7 +7,7 @@ import useSWR from "swr";
 import { fetcherWithId } from "@/helpers/fetchers";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { RiDeleteBin5Fill, RiVipCrownFill } from "react-icons/ri";
+import { RiDeleteBin5Fill, RiUser3Fill, RiVipCrownFill } from "react-icons/ri";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { BiExit } from "react-icons/bi";
 import ReactLoading from "react-loading";
@@ -162,10 +162,10 @@ const CreateTeam = () => {
                       emailVerified: boolean;
                     }) => (
                       <div
-                        className="flex flex-col justify-center items-center p-2 rounded-md bg-zinc-800"
-                        key={member.email}
+                        className="relative flex flex-col justify-center items-center p-2 rounded-md bg-zinc-800"
+                        key={member.id}
                       >
-                        <div className="rounded-full overflow-hidden w-14 h-14">
+                        <div className="relative rounded-full overflow-hidden w-14 h-14">
                           <Image
                             src={member.image}
                             width={300}
@@ -174,10 +174,20 @@ const CreateTeam = () => {
                             unoptimized
                           />
                         </div>
-                        <p className="flex justify-center items-center gap-1">
-                          {member.name}{" "}
-                          {team[0].creatorId === member.id && (
-                            <RiVipCrownFill className="text-yellow-300 mt-[2.5px]" />
+                        <p className="flex flex-col justify-center text-center items-center gap-1">
+                          {member.name}
+                          {team[0].creatorId === member.id ? (
+                            <motion.div whileTap={{ rotate: 360, scale: 2 }}>
+                              <RiVipCrownFill
+                                title="Leader"
+                                className="text-yellow-400 mt-2"
+                              />
+                            </motion.div>
+                          ) : (
+                            <RiUser3Fill
+                              title="Member"
+                              className="text-zinc-400 mt-2"
+                            />
                           )}
                         </p>
                       </div>
