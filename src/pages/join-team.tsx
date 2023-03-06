@@ -38,7 +38,7 @@ const schema = yup
       .trim()
       .required("Passcode is required.")
       .min(3, "Passcode min length is 3 digits.")
-      .max(10, "Passcode max length is 10 digits.")
+      .max(15, "Passcode max length is 15 digits.")
       .matches(
         /^[a-z0-9]+$/,
         "Passcode is not in the correct format. (a-z, 0-9)"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import UserBox from "@/components/UserBox";
@@ -20,12 +20,6 @@ const CreateTeam = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [copied, setCopied] = useState<boolean>(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setCopied(false);
-    }, 3000);
-  }, [copied]);
   const [displayCode, setDisplayCode] = useState<boolean>(false);
 
   const { data: team, isLoading: isLoadingTeam } = useSWR(
@@ -90,10 +84,12 @@ const CreateTeam = () => {
                   {team[0].name}
                   <CopyToClipboard text={team[0].teamId}>
                     <button
-                      onClick={() => setCopied(true)}
+                      onClick={() =>
+                        notify("info", "Team ID was copied to clipboard.")
+                      }
                       className="font-thin text-zinc-500 text-lg hover:text-zinc-200 ease-in-out duration-300"
                     >
-                      {!copied ? team[0].teamId : "Copied!"}
+                      {team[0].teamId}
                     </button>
                   </CopyToClipboard>
                 </h2>
