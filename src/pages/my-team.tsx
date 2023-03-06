@@ -180,13 +180,13 @@ const CreateTeam = () => {
                             <motion.div whileTap={{ rotate: 360, scale: 2 }}>
                               <RiVipCrownFill
                                 title="Leader"
-                                className="text-yellow-400 mt-2"
+                                className="text-yellow-400"
                               />
                             </motion.div>
                           ) : (
                             <RiUser3Fill
                               title="Member"
-                              className="text-zinc-400 mt-2"
+                              className="text-zinc-400"
                             />
                           )}
                         </p>
@@ -232,7 +232,11 @@ const CreateTeam = () => {
         {displayChangeInfoModal && (
           <ChangeTeamInfoModal
             displayModal={setDisplayChangeInfoModal}
-            teamUid={team[0].teamUid as string}
+            team={{
+              passcode: team[0].passcode,
+              name: team[0].name,
+              uid: team[0].teamUid,
+            }}
           />
         )}
       </>

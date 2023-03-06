@@ -1,4 +1,4 @@
-import React, { EffectCallback, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,36 +7,41 @@ import { motion } from "framer-motion";
 import { changeTeamInfo } from "@/lib/db";
 import notify from "@/helpers/toastNotify";
 
-const schema = yup
-  .object({
-    name: yup
-      .string()
-      .trim()
-      .required("Team name is required.")
-      .min(3, "Team name min length is 3 digits.")
-      .max(15, "Team name max length is 15 digits.")
-      .matches(
-        /^[aA-zZ0-9аА-яЯіІґҐїЇєЄ]+$/,
-        "Team name is not in the correct format. (aA-zZ, аА-яЯ, 0-9)"
-      ),
-    passcode: yup
-      .string()
-      .trim()
-      .required("Passcode is required.")
-      .min(3, "Passcode min length is 3 digits.")
-      .max(15, "Passcode max length is 15 digits.")
-      .matches(
-        /^[a-z0-9]+$/,
-        "Passcode is not in the correct format. (a-z, 0-9)"
-      ),
-  })
-  .required();
-type FormData = yup.InferType<typeof schema>;
-
 const ChangeTeamInfoModal: React.FC<{
   displayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  teamUid: string;
-}> = ({ displayModal, teamUid }) => {
+  team: { name: string; uid: string; passcode: string };
+}> = ({ displayModal, team }) => {
+  const schema = yup
+    .object({
+      name: yup
+        .string()
+        .trim()
+        .required("Team name is required.")
+        .min(3, "Team name min length is 3 digits.")
+        .max(15, "Team name max length is 15 digits.")
+        .matches(
+          /^[aA-zZ0-9аА-яЯіІґҐїЇєЄ]+$/,
+          "Team name is not in the correct format. (aA-zZ, аА-яЯ, 0-9)"
+        )
+        .notOneOf([team.name], "Name must be different from previous one."),
+      passcode: yup
+        .string()
+        .trim()
+        .required("Passcode is required.")
+        .min(3, "Passcode min length is 3 digits.")
+        .max(15, "Passcode max length is 15 digits.")
+        .matches(
+          /^[a-z0-9]+$/,
+          "Passcode is not in the correct format. (a-z, 0-9)"
+        )
+        .notOneOf(
+          [team.passcode],
+          "Passcode must be different from previous one."
+        ),
+    })
+    .required();
+  type FormData = yup.InferType<typeof schema>;
+
   const {
     register,
     handleSubmit,
@@ -68,7 +73,7 @@ const ChangeTeamInfoModal: React.FC<{
   }, []);
 
   const handleInfoChange = (data: FormData) => {
-    changeTeamInfo(teamUid, data)
+    changeTeamInfo(team.uid, data)
       .then(() => reset())
       .then(() => notify("success", "Team name and passcode were updated!"))
       .then(() => displayModal(false))
@@ -99,12 +104,13 @@ const ChangeTeamInfoModal: React.FC<{
               htmlFor="nameInput"
               className={`${errors.name && "text-red-500"} text-xl w-full`}
             >
-              New name
+              Name
             </label>
             <input
               {...register("name")}
               autoComplete="off"
               placeholder="NewName123"
+              defaultValue={team.name}
               type="text"
               className={`${
                 errors.name && "border border-red-600 rounded-b-none"
@@ -128,12 +134,13 @@ const ChangeTeamInfoModal: React.FC<{
                 errors.passcode?.message && "text-red-500"
               } text-xl w-full`}
             >
-              New passcode
+              Passcode
             </label>
             <input
               {...register("passcode")}
               autoComplete="off"
               placeholder="newpasscode12"
+              defaultValue={team.passcode}
               type="text"
               className={`${
                 errors.passcode?.message &&
