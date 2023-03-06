@@ -92,14 +92,16 @@ const CreateTeam = () => {
         >
           <form
             onSubmit={handleSubmit(handleTeamJoin)}
-            className="bg-zinc-800 p-8 rounded-md flex flex-col gap-4 justify-center items-center border border-cyan-400 outline outline-8 outline-zinc-800"
+            className={`${
+              errors.name || errors.passcode || errors.teamId
+                ? "border-red-500"
+                : "border-cyan-400"
+            } bg-zinc-800 p-8 rounded-md flex flex-col gap-4 justify-center items-center border outline outline-8 outline-zinc-800`}
           >
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex max-w-[258px] flex-col justify-center items-center">
               <label
                 htmlFor="nameInput"
-                className={`${
-                  errors.name?.message && "text-red-500"
-                } text-xl w-full`}
+                className={`${errors.name && "text-red-500"} text-xl w-full`}
               >
                 Enter team name
               </label>
@@ -109,25 +111,25 @@ const CreateTeam = () => {
                 placeholder="MyTeam123"
                 type="text"
                 className={`${
-                  errors.name?.message && "border border-red-600"
-                } rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
+                  errors.name && "border border-red-600 rounded-b-none"
+                } w-full rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
                 id="nameInput"
               />
+              {errors.name && (
+                <motion.div
+                  animate={{ height: "auto", opacity: 1 }}
+                  initial={{ height: 0, opacity: 0 }}
+                  className="text-center w-full border border-dashed border-t-0 rounded-t-none border-red-500 rounded-md bg-zinc-900 text-red-500 font-mono"
+                >
+                  <p className="p-1">{errors.name?.message}</p>
+                </motion.div>
+              )}
             </div>
-            {errors.name?.message && (
-              <motion.div
-                animate={{ height: "auto", opacity: 1 }}
-                initial={{ height: 0, opacity: 0 }}
-                className="text-center w-full max-w-[258px] border border-dashed border-red-500 rounded-md bg-zinc-900 text-red-500 font-mono"
-              >
-                <p className="p-1">{errors.name?.message}</p>
-              </motion.div>
-            )}
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex max-w-[258px] flex-col justify-center items-center">
               <label
                 htmlFor="teamIdInput"
                 className={`${
-                  errors.teamId?.message && "text-red-500"
+                  errors.teamId && "text-red-500"
                 } text-xl w-full`}
               >
                 Enter team ID
@@ -138,25 +140,26 @@ const CreateTeam = () => {
                 placeholder="#teamid"
                 type="text"
                 className={`${
-                  errors.teamId?.message && "border border-red-600"
-                } rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
+                  errors.teamId &&
+                  "border border-red-600 rounded-b-none"
+                } w-full rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
                 id="teamIdInput"
               />
+              {errors.teamId && (
+                <motion.div
+                  animate={{ height: "auto", opacity: 1 }}
+                  initial={{ height: 0, opacity: 0 }}
+                  className="text-center w-full border border-dashed border-t-0 rounded-t-none border-red-500 rounded-md bg-zinc-900 text-red-500 font-mono"
+                >
+                  <p className="p-1">{errors.teamId?.message}</p>
+                </motion.div>
+              )}
             </div>
-            {errors.teamId?.message && (
-              <motion.div
-                animate={{ height: "auto", opacity: 1 }}
-                initial={{ height: 0, opacity: 0 }}
-                className="text-center w-full max-w-[258px] border border-dashed border-red-500 rounded-md bg-zinc-900 text-red-500 font-mono"
-              >
-                <p className="p-1">{errors.teamId?.message}</p>
-              </motion.div>
-            )}
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex max-w-[258px] flex-col justify-center items-center">
               <label
                 htmlFor="passcodeInput"
                 className={`${
-                  errors.passcode?.message && "text-red-500"
+                  errors.passcode && "text-red-500"
                 } text-xl w-full`}
               >
                 Enter passcode
@@ -167,20 +170,21 @@ const CreateTeam = () => {
                 placeholder="teampasscode12"
                 type="text"
                 className={`${
-                  errors.passcode?.message && "border border-red-600"
-                } rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
+                  errors.passcode &&
+                  "border border-red-600 rounded-b-none"
+                } w-full rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
                 id="passcodeInput"
               />
+              {errors.passcode && (
+                <motion.div
+                  animate={{ height: "auto", opacity: 1 }}
+                  initial={{ height: 0, opacity: 0 }}
+                  className="text-center w-full border border-dashed border-t-0 rounded-t-none border-red-500 rounded-md bg-zinc-900 text-red-500 font-mono"
+                >
+                  <p className="p-1">{errors.passcode?.message}</p>
+                </motion.div>
+              )}
             </div>
-            {errors.passcode?.message && (
-              <motion.div
-                animate={{ height: "auto", opacity: 1 }}
-                initial={{ height: 0, opacity: 0 }}
-                className="text-center w-full max-w-[258px] border border-dashed border-red-500 rounded-md bg-zinc-900 text-red-500 font-mono"
-              >
-                <p className="p-1">{errors.passcode?.message}</p>
-              </motion.div>
-            )}
             <div className="w-full flex justify-between items-center mt-8">
               <Link href={"/"} className="btn-danger">
                 <MdArrowBackIosNew className="mt-[0.9px]" />

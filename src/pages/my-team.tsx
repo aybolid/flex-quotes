@@ -15,12 +15,15 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import Link from "next/link";
 import { deleteTeam, leaveTeam } from "@/lib/db";
 import notify from "@/helpers/toastNotify";
+import ChangeTeamInfoModal from "@/components/Modals/ChangeTeamInfoModal";
 
 const CreateTeam = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
   const [displayCode, setDisplayCode] = useState<boolean>(false);
+  const [displayChangeInfoModal, setDisplayChangeInfoModal] =
+    useState<boolean>(false);
 
   const { data: team, isLoading: isLoadingTeam } = useSWR(
     session ? ["/api/team", session.user?.id] : null,
@@ -125,13 +128,23 @@ const CreateTeam = () => {
               </section>
               <section className="mt-4">
                 <h3 className="text-lg mb-1 font-thin md:text-xl">Actions</h3>
-                <div className="flex justify-between items-center gap-4">
-                  <Link href="/add-quote" className="btn-primary">
+                <div className="grid grid-cols-2 grid-flow-row justify-between items-center gap-4">
+                  <Link href="/team/add-quote" className="btn-primary">
                     Add Quote 📝
                   </Link>
-                  <Link href="/" className="btn-primary">
+                  <Link href="/team/view-quotes" className="btn-primary">
                     View Quotes 👀
                   </Link>
+                  {team[0].creatorId === session?.user?.id && (
+                    <>
+                      <button
+                        onClick={() => setDisplayChangeInfoModal(true)}
+                        className="btn-primary"
+                      >
+                        Change Info ✒️
+                      </button>
+                    </>
+                  )}
                 </div>
               </section>
               <div className="mt-4">
@@ -164,7 +177,7 @@ const CreateTeam = () => {
                         <p className="flex justify-center items-center gap-1">
                           {member.name}{" "}
                           {team[0].creatorId === member.id && (
-                            <RiVipCrownFill className="text-yellow-300 mt-[4px]" />
+                            <RiVipCrownFill className="text-yellow-300 mt-[2.5px]" />
                           )}
                         </p>
                       </div>
@@ -177,7 +190,7 @@ const CreateTeam = () => {
                   Danger Zone
                   <p className="text-sm font-mono text-red-500">x2 click</p>
                 </h3>
-                <section className="flex flex-col md:flex-row justify-center items-center gap-4 p-4 rounded-md border border-dashed border-red-500">
+                <section className="grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-4 p-4 rounded-md border border-dashed border-red-500">
                   <button
                     onDoubleClick={handleTeamLeave}
                     className="btn-danger"
@@ -185,12 +198,14 @@ const CreateTeam = () => {
                     Leave Team <BiExit size={25} className="mt-[2px]" />
                   </button>
                   {team[0].creatorId === session?.user?.id && (
-                    <button
-                      onDoubleClick={handleTeamDelete}
-                      className="btn-danger"
-                    >
-                      Delete Team <RiDeleteBin5Fill className="mt-[2px]" />
-                    </button>
+                    <>
+                      <button
+                        onDoubleClick={handleTeamDelete}
+                        className="btn-danger"
+                      >
+                        Delete Team <RiDeleteBin5Fill className="mt-[2px]" />
+                      </button>
+                    </>
                   )}
                 </section>
               </div>
@@ -203,6 +218,13 @@ const CreateTeam = () => {
             </p>
           </footer>
         </motion.div>
+        {/* Modal */}
+        {displayChangeInfoModal && (
+          <ChangeTeamInfoModal
+            displayModal={setDisplayChangeInfoModal}
+            teamUid={team[0].teamUid as string}
+          />
+        )}
       </>
     );
   }

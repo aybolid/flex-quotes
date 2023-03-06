@@ -77,7 +77,7 @@ const Home = () => {
             >
               <div className="grid grid-cols-1 gap-8 md:gap-16 md:grid-cols-2">
                 <HomeLink href="/team/add-quote" title="Add Quote 📝" />
-                <HomeLink href="/" title="View Quotes 👀" />
+                <HomeLink href="/team/view-quotes" title="View Quotes 👀" />
                 <HomeLink href="/my-team" title="My Team 🫂" />
                 <HomeLink href="/" title="In Progress..." />
               </div>

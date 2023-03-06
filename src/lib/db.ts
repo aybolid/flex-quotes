@@ -124,3 +124,13 @@ export const joinTeam = async (
     .doc(teams[0].teamUid)
     .set({ members: teams[0].members.concat(userUid) }, { merge: true });
 };
+
+export const changeTeamInfo = (
+  teamUid: string,
+  newData: { name: string; passcode: string }
+) => {
+  return db
+    .collection("teams")
+    .doc(teamUid)
+    .set({ ...newData }, { merge: true });
+};
