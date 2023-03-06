@@ -2,8 +2,6 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import { MdArrowBackIosNew } from "react-icons/md";
 import Link from "next/link";
-import { createTeam } from "@/lib/db";
-import UserBox from "@/components/UserBox";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
@@ -11,13 +9,18 @@ import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+
+import notify from "@/helpers/toastNotify";
+import { createTeam } from "@/lib/db";
+import UserBox from "@/components/UserBox";
+
 const schema = yup
   .object({
     name: yup
       .string()
       .trim()
       .required("Team name is required.")
-      .min(3, 'Team name min length is 3 digits.')
+      .min(3, "Team name min length is 3 digits.")
       .max(15, "Team name max length is 15 digits.")
       .matches(
         /^[aA-zZ0-9аА-яЯіІґҐїЇєЄ]+$/,
@@ -27,7 +30,7 @@ const schema = yup
       .string()
       .trim()
       .required("Passcode is required.")
-      .min(3, 'Passcode min length is 3 digits.')
+      .min(3, "Passcode min length is 3 digits.")
       .max(10, "Passcode max length is 10 digits.")
       .matches(
         /^[a-z0-9]+$/,
@@ -66,7 +69,9 @@ const CreateTeam = () => {
 
     createTeam(newTeam, uuidv4(), userId)
       .then(() => reset())
-      .then(() => router.push("/"));
+      .then(() => notify("success", "Team was created successfully!"))
+      .then(() => router.push("/"))
+      .catch(() => notify("error", "An unexpected error has occurred."));
   };
 
   return (

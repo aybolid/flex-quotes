@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import notify from "@/helpers/toastNotify";
 
 const schema = yup
   .object({
@@ -59,7 +60,13 @@ const CreateTeam = () => {
   });
 
   const handleTeamJoin = (data: FormData) => {
-    joinTeam({ ...data }, session?.user?.id as string);
+    joinTeam({ ...data }, session?.user?.id as string)
+      .then(() => reset())
+      .then(() => notify("success", "You have joined the team!"))
+      .then(() => router.push("/"))
+      .catch(() =>
+        notify("error", "An error has occurred. Check provided team data!")
+      );
   };
 
   return (

@@ -52,6 +52,25 @@ export const leaveTeam = async (teamUid: string, userUid: string) => {
   let filteredTeamMembers: string[] = teamMembers.filter(
     (member) => member !== userUid
   );
+
+  // Delete team if last user left
+  if (filteredTeamMembers.length === 0) {
+    return deleteTeam(teamUid);
+  }
+  // Choose new team leader if previous team leader left
+  if (!filteredTeamMembers.includes(teamData?.creatorId)) {
+    db.collection("teams")
+      .doc(teamUid)
+      .set(
+        {
+          creatorId:
+            filteredTeamMembers[
+              Math.floor(Math.random() * filteredTeamMembers.length)
+            ],
+        },
+        { merge: true }
+      );
+  }
   db.collection("users").doc(userUid).set({ memberOf: null }, { merge: true });
 
   return db

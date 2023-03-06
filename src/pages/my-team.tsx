@@ -14,6 +14,7 @@ import ReactLoading from "react-loading";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Link from "next/link";
 import { deleteTeam, leaveTeam } from "@/lib/db";
+import notify from "@/helpers/toastNotify";
 
 const CreateTeam = () => {
   const router = useRouter();
@@ -37,12 +38,16 @@ const CreateTeam = () => {
   );
 
   const handleTeamDelete = () => {
-    deleteTeam(team[0].teamUid).then(() => router.push("/"));
+    deleteTeam(team[0].teamUid)
+      .then(() => notify("info", `The '${team[0].name}' team was deleted.`))
+      .then(() => router.push("/"))
+      .catch(() => notify("error", "An unexpected error has occured."));
   };
   const handleTeamLeave = () => {
-    leaveTeam(team[0].teamUid, session?.user?.id as string).then(() =>
-      router.push("/")
-    );
+    leaveTeam(team[0].teamUid, session?.user?.id as string)
+      .then(() => notify("info", `You have left the '${team[0].name}' team.`))
+      .then(() => router.push("/"))
+      .catch(() => notify("error", "An unexpected error has occured."));
   };
 
   if (isLoadingTeam || isLoadingMembers) {
@@ -163,7 +168,7 @@ const CreateTeam = () => {
                         <p className="flex justify-center items-center gap-1">
                           {member.name}{" "}
                           {team[0].creatorId === member.id && (
-                            <RiVipCrownFill className="text-yellow-300 mt-[0.9px]" />
+                            <RiVipCrownFill className="text-yellow-300 mt-[4px]" />
                           )}
                         </p>
                       </div>
@@ -177,18 +182,16 @@ const CreateTeam = () => {
                   <p className="text-sm font-mono text-red-500">x2 click</p>
                 </h3>
                 <section className="flex flex-col md:flex-row justify-center items-center gap-4 p-4 rounded-md border border-dashed border-red-500">
-                  {team[0].creatorId !== session?.user?.id && (
-                    <button
-                      onDoubleClick={handleTeamLeave}
-                      className="btn-danger text-red-400 border-red-400"
-                    >
-                      Leave Team <BiExit size={25} className="mt-[2px]" />
-                    </button>
-                  )}
+                  <button
+                    onDoubleClick={handleTeamLeave}
+                    className="btn-danger"
+                  >
+                    Leave Team <BiExit size={25} className="mt-[2px]" />
+                  </button>
                   {team[0].creatorId === session?.user?.id && (
                     <button
                       onDoubleClick={handleTeamDelete}
-                      className="btn-danger text-red-400 border-red-400"
+                      className="btn-danger"
                     >
                       Delete Team <RiDeleteBin5Fill className="mt-[2px]" />
                     </button>
