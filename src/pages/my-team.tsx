@@ -74,7 +74,7 @@ const CreateTeam = () => {
             <h1 className="text-5xl md:text-6xl text-center font-thin capitalize">
               My Team
             </h1>
-            <UserBox />
+            <UserBox displayBack />
           </header>
           <motion.main
             animate={{ x: 0 }}
@@ -177,12 +177,10 @@ const CreateTeam = () => {
                         <p className="flex flex-col justify-center text-center items-center gap-1">
                           {member.name}
                           {team[0].creatorId === member.id ? (
-                            <motion.div whileTap={{ rotate: 360, scale: 2 }}>
-                              <RiVipCrownFill
-                                title="Leader"
-                                className="text-yellow-400"
-                              />
-                            </motion.div>
+                            <RiVipCrownFill
+                              title="Leader"
+                              className="text-yellow-400"
+                            />
                           ) : (
                             <RiUser3Fill
                               title="Member"
