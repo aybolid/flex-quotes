@@ -13,7 +13,6 @@ import { compareAsc, compareDesc, parseISO } from "date-fns";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import Select from "react-select";
 import Image from "next/image";
-import { quote } from "discord.js";
 
 const AddQuote = () => {
   const router = useRouter();
