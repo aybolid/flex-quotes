@@ -12,14 +12,26 @@ export const getUserTeam = async (userUid: string) => {
   return team;
 };
 
-export const getTeamMembers = async (teamId: string) => {
+export const getTeamMembers = async (teamUid: string) => {
   const snapshot = await db
     .collection("users")
-    .where("memberOf", "==", teamId)
+    .where("memberOf", "==", teamUid)
     .get();
 
   const teamMembers: object[] = [];
   snapshot.forEach((doc) => teamMembers.push({ id: doc.id, ...doc.data() }));
 
   return teamMembers;
+};
+
+export const getTeamQuotes = async (teamUid: string) => {
+  const snapshot = await db
+    .collection("quotes")
+    .where("teamUid", "==", teamUid)
+    .get();
+
+  const quotes: object[] = [];
+  snapshot.forEach((doc) => quotes.push({ id: doc.id, ...doc.data() }));
+
+  return quotes;
 };

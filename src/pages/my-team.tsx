@@ -30,7 +30,7 @@ const CreateTeam = () => {
     fetcherWithId
   );
   const { data: teamMembers, isLoading: isLoadingMembers } = useSWR(
-    team?.length ? ["/api/team-members", team[0].teamUid] : null,
+    team?.length ? ["/api/members", team[0].teamUid] : null,
     fetcherWithId
   );
 

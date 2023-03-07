@@ -36,6 +36,17 @@ export const deleteTeam = async (teamUid: string) => {
       .set({ memberOf: null }, { merge: true });
   }
 
+  // Delete quotes related to the team
+  const quotesSnapshot = await db
+    .collection("quotes")
+    .where("teamUid", "==", teamUid)
+    .get();
+  let quotesIds: string[] = [];
+  quotesSnapshot.forEach((doc) => quotesIds.push(doc.id));
+  for (i = 0; i < quotesIds.length; i++) {
+    db.collection("quotes").doc(quotesIds[i]).delete();
+  }
+
   return db.collection("teams").doc(teamUid).delete();
 };
 
@@ -133,4 +144,23 @@ export const changeTeamInfo = (
     .collection("teams")
     .doc(teamUid)
     .set({ ...newData }, { merge: true });
+};
+
+export const addNewQuote = async (newQuote: {
+  teamUid: string;
+  authorUid: string;
+  image: string;
+  name: string;
+  text: string;
+  createdAt: string;
+  rating: number;
+}) => {
+  return db
+    .collection("quotes")
+    .doc()
+    .set({ ...newQuote });
+};
+
+export const deleteQuote = (quoteId: string) => {
+  return db.collection("quotes").doc(quoteId).delete();
 };

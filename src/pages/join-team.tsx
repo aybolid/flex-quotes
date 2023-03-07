@@ -21,7 +21,7 @@ const schema = yup
       .min(3, "Team name min length is 3 digits.")
       .max(15, "Team name max length is 15 digits.")
       .matches(
-        /^[aA-zZ0-9аА-яЯіІґҐїЇєЄ]+$/,
+        /^[aA-zZ0-9аА-яЯіІґҐїЇєЄёЁ]+$/,
         "Team name is not in the correct format. (aA-zZ, аА-яЯ, 0-9)"
       ),
     teamId: yup
