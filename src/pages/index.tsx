@@ -75,11 +75,10 @@ const Home = () => {
               initial={{ x: 200 }}
               className="flex flex-col justify-center items-center gap-8 py-8"
             >
-              <div className="grid grid-cols-1 gap-8 md:gap-16 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-8 md:gap-16">
                 <HomeLink href="/team/add-quote" title="Add Quote 📝" />
                 <HomeLink href="/team/view-quotes" title="View Quotes 👀" />
                 <HomeLink href="/my-team" title="My Team 🫂" />
-                <HomeLink href="/" title="In Progress..." />
               </div>
             </motion.main>
           ) : (
