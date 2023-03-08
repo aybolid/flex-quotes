@@ -1,3 +1,4 @@
+import { member } from "@/interfaces/teams";
 import { getTeamMembers } from "@/lib/db-admin";
 import { NextApiRequest, NextApiResponse } from "next";
 

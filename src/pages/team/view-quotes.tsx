@@ -6,15 +6,16 @@ import useSWR from "swr";
 import { fetcherWithId } from "@/helpers/fetchers";
 import { useSession } from "next-auth/react";
 import ReactLoading from "react-loading";
-import Quote from "@/components/Quotes/Quote";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
-import { compareAsc, compareDesc, parseISO } from "date-fns";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import Select from "react-select";
 import Image from "next/image";
+import { dbQuote } from "@/interfaces/quotes";
+import QuotesSort from "@/components/Quotes/QuotesSort";
+import QuotesFilterSort from "@/components/Quotes/QuotesFilterSort";
 
-const AddQuote = () => {
+const ViewQuotes = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -133,83 +134,28 @@ const AddQuote = () => {
                       Your team has no quotes added!
                     </p>
                   ) : !author ? (
-                    quotes
-                      .sort((a: any, b: any) =>
-                        sortDesc
-                          ? compareAsc(
-                              parseISO(a.createdAt),
-                              parseISO(b.createdAt)
-                            )
-                          : compareDesc(
-                              parseISO(a.createdAt),
-                              parseISO(b.createdAt)
-                            )
-                      )
-                      .map(
-                        (quote: {
-                          id: string;
-                          teamUid: string;
-                          authorUid: string;
-                          image: string;
-                          name: string;
-                          text: string;
-                          createdAt: string;
-                          rating: number;
-                        }) => (
-                          <Quote
-                            key={quote.id}
-                            allQuotes={quotes}
-                            quote={quote}
-                            displayDelete={
-                              team[0].creatorId === session?.user?.id
-                                ? true
-                                : false
-                            }
-                          />
-                        )
-                      )
-                  ) : !quotes.filter((quote: any) => quote.authorUid === author) // ! Check for valid data after filter
+                    // ! Quotes with sort
+                    <QuotesSort
+                      team={team}
+                      quotes={quotes}
+                      sortDesc={sortDesc}
+                      session={session!}
+                    />
+                  ) : // ! Check for valid data after filter
+                  !quotes.filter((quote: dbQuote) => quote.authorUid === author)
                       .length ? (
                     <p className="w-full text-center font-mono text-zinc-500">
                       Nothing was found
                     </p>
                   ) : (
-                    quotes
-                      .filter((quote: any) => quote.authorUid === author)
-                      .sort((a: any, b: any) =>
-                        sortDesc
-                          ? compareAsc(
-                              parseISO(a.createdAt),
-                              parseISO(b.createdAt)
-                            )
-                          : compareDesc(
-                              parseISO(a.createdAt),
-                              parseISO(b.createdAt)
-                            )
-                      )
-                      .map(
-                        (quote: {
-                          id: string;
-                          teamUid: string;
-                          authorUid: string;
-                          image: string;
-                          name: string;
-                          text: string;
-                          createdAt: string;
-                          rating: number;
-                        }) => (
-                          <Quote
-                            key={quote.id}
-                            allQuotes={quotes}
-                            quote={quote}
-                            displayDelete={
-                              team[0].creatorId === session?.user?.id
-                                ? true
-                                : false
-                            }
-                          />
-                        )
-                      )
+                    // ! Filtered quotes with sort
+                    <QuotesFilterSort
+                      team={team}
+                      quotes={quotes}
+                      sortDesc={sortDesc}
+                      session={session!}
+                      author={author}
+                    />
                   )}
                 </div>
               </div>
@@ -227,4 +173,4 @@ const AddQuote = () => {
   }
 };
 
-export default AddQuote;
+export default ViewQuotes;

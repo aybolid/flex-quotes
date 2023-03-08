@@ -30,7 +30,7 @@ export const getTeamQuotes = async (teamUid: string) => {
     .where("teamUid", "==", teamUid)
     .get();
 
-  const quotes: object[] = [];
+  const quotes: {}[] = [];
   snapshot.forEach((doc) => quotes.push({ id: doc.id, ...doc.data() }));
 
   return quotes;

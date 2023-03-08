@@ -16,6 +16,7 @@ import { MdArrowBackIosNew } from "react-icons/md";
 import notify from "@/helpers/toastNotify";
 import { addNewQuote } from "@/lib/db";
 import Link from "next/link";
+import { quote } from "@/interfaces/quotes";
 
 const schema = yup
   .object({
@@ -64,15 +65,7 @@ const AddQuote = () => {
     }
 
     const authorArray: string[] = author.split("*");
-    const newQuote: {
-      teamUid: string;
-      authorUid: string;
-      image: string;
-      name: string;
-      text: string;
-      createdAt: string;
-      rating: number;
-    } = {
+    const newQuote: quote = {
       teamUid: team[0].teamUid,
       authorUid: authorArray[0],
       image: authorArray[1],

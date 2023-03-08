@@ -1,3 +1,5 @@
+import { quote } from "@/interfaces/quotes";
+import { team } from "@/interfaces/teams";
 import firebase from "./firebase";
 const db = firebase.firestore();
 
@@ -105,24 +107,10 @@ export const joinTeam = async (
     .where("passcode", "==", joinData.passcode)
     .get();
 
-  const teams: {
-    creatorId: string;
-    members: string[];
-    name: string;
-    passcode: string;
-    teamId: string;
-    teamUid: string;
-  }[] = [];
+  const teams: team[] = [];
   snapshot.forEach((doc) =>
     teams.push({
-      ...(doc.data() as {
-        creatorId: string;
-        members: string[];
-        name: string;
-        passcode: string;
-        teamId: string;
-        teamUid: string;
-      }),
+      ...(doc.data() as team),
     })
   );
 
@@ -146,15 +134,7 @@ export const changeTeamInfo = (
     .set({ ...newData }, { merge: true });
 };
 
-export const addNewQuote = async (newQuote: {
-  teamUid: string;
-  authorUid: string;
-  image: string;
-  name: string;
-  text: string;
-  createdAt: string;
-  rating: number;
-}) => {
+export const addNewQuote = async (newQuote: quote) => {
   return db
     .collection("quotes")
     .doc()

@@ -1,4 +1,5 @@
 import notify from "@/helpers/toastNotify";
+import { dbQuote } from "@/interfaces/quotes";
 import { deleteQuote } from "@/lib/db";
 import { format, parseISO } from "date-fns";
 import Image from "next/image";
@@ -6,24 +7,15 @@ import React, { FC } from "react";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { mutate } from "swr";
 
-interface quote {
-  id: string;
-  teamUid: string;
-  authorUid: string;
-  image: string;
-  name: string;
-  text: string;
-  createdAt: string;
-  rating: number;
-}
-
 const Quote: FC<{
-  allQuotes: quote[];
-  quote: quote;
+  allQuotes: dbQuote[];
+  quote: dbQuote;
   displayDelete: boolean;
 }> = ({ displayDelete, quote, allQuotes }) => {
   const handleQuoteDelete = () => {
-    const filteredQuotes: quote[] | [] = allQuotes.filter((el) => el !== quote);
+    const filteredQuotes: dbQuote[] | [] = allQuotes.filter(
+      (el) => el !== quote
+    );
 
     deleteQuote(quote.id)
       .then(() => mutate(["/api/quotes", quote.teamUid], filteredQuotes, true))
