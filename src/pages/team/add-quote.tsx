@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { motion } from "framer-motion";
 import UserBox from "@/components/UserBox";
 import { useRouter } from "next/router";
@@ -17,6 +16,10 @@ import notify from "@/helpers/toastNotify";
 import { addNewQuote } from "@/lib/db";
 import Link from "next/link";
 import { quote } from "@/interfaces/quotes";
+import { NextSeo } from "next-seo";
+
+const title: string = "Add New Quote - Flex Quotes";
+const url: string = "https://flexquotes.vercel.app/team/add-quote";
 
 const schema = yup
   .object({
@@ -82,14 +85,24 @@ const AddQuote = () => {
 
   if (isLoadingTeam || isLoadingMembers) {
     return (
-      <div className="absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2">
-        <ReactLoading
-          type={"spinningBubbles"}
-          color={"#67e8f9"}
-          height={100}
-          width={100}
+      <>
+        <NextSeo
+          title={title}
+          canonical={url}
+          openGraph={{
+            url,
+            title,
+          }}
         />
-      </div>
+        <div className="absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#67e8f9"}
+            height={100}
+            width={100}
+          />
+        </div>
+      </>
     );
   }
   if (team?.length && teamMembers?.length) {
@@ -120,9 +133,14 @@ const AddQuote = () => {
     };
     return (
       <>
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
+        <NextSeo
+          title={title}
+          canonical={url}
+          openGraph={{
+            url,
+            title,
+          }}
+        />
         <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}

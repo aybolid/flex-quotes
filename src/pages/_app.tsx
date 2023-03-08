@@ -4,6 +4,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "@/styles/globals.css";
+import { DefaultSeo } from "next-seo";
+import SEO from "../../next-seo.config";
 
 export default function App({
   Component,
@@ -12,6 +14,7 @@ export default function App({
   return (
     <>
       <SessionProvider session={session}>
+        <DefaultSeo {...SEO} />
         <Component {...pageProps} />
       </SessionProvider>
       {/* Toast */}

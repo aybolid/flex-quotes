@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Head from "next/head";
 import { motion } from "framer-motion";
 import UserBox from "@/components/UserBox";
 import { useRouter } from "next/router";
@@ -16,6 +15,10 @@ import Link from "next/link";
 import { deleteTeam, leaveTeam } from "@/lib/db";
 import notify from "@/helpers/toastNotify";
 import ChangeTeamInfoModal from "@/components/Modals/ChangeTeamInfoModal";
+import { NextSeo } from "next-seo";
+
+const title: string = "My Team - Flex Quotes";
+const url: string = "https://flexquotes.vercel.app/my-team";
 
 const CreateTeam = () => {
   const router = useRouter();
@@ -62,9 +65,14 @@ const CreateTeam = () => {
   if (team?.length && teamMembers?.length) {
     return (
       <>
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
+        <NextSeo
+          title={title}
+          canonical={url}
+          openGraph={{
+            url,
+            title,
+          }}
+        />
         <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
@@ -79,9 +87,9 @@ const CreateTeam = () => {
           <motion.main
             animate={{ x: 0 }}
             initial={{ x: 200 }}
-            className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-4 md:py-2"
+            className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-4 lg:py-8"
           >
-            <div className="p-2 md:p-4 bg-zinc-800 rounded-md w-full sm:w-2/3">
+            <div className="p-2 md:p-4 bg-zinc-800 rounded-md w-full sm:w-2/3 md:w-2/5">
               <section className="mb-8">
                 <h2 className="flex justify-center items-end gap-2 text-3xl text-cyan-300">
                   {team[0].name}
