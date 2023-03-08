@@ -202,7 +202,7 @@ const AddQuote = () => {
                   >
                     <h3 className="text-2xl text-cyan-300">Quote Preview</h3>
                     <div className="rounded-md border border-dashed border-cyan-300 mt-2">
-                      <div className="p-2 md:p-4 pb-2 bg-zinc-800 even:bg-[#313135] w-full">
+                      <div className="p-2 md:p-4 pb-2 rounded-md bg-zinc-800 even:bg-[#313135] w-full">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 md:gap-2">
                           <div className="flex justify-center items-center gap-2">
                             <div className="w-8 h-8 md:w-12 md:h-12 rounded-full overflow-hidden">
