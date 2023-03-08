@@ -95,7 +95,7 @@ const ViewQuotes = () => {
             initial={{ x: 200 }}
             className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-8"
           >
-            <section className="p-4 bg-zinc-800 rounded-md w-2/3 border border-cyan-300 outline outline-8 outline-zinc-800">
+            <section className="p-4 bg-zinc-800 rounded-md w-2/3">
               <h3 className="text-lg mb-1 font-thin md:text-xl">Actions</h3>
               <div className="flex justify-start items-center gap-4 mb-4">
                 <Link href="/team/add-quote" className="btn-primary">

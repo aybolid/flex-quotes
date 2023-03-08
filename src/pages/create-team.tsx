@@ -96,10 +96,8 @@ const CreateTeam = () => {
           <form
             onSubmit={handleSubmit(handleTeamCreate)}
             className={`${
-              errors.name || errors.passcode
-                ? "border-red-500"
-                : "border-cyan-400"
-            } bg-zinc-800 px-4 py-8 rounded-md flex flex-col gap-4 justify-center items-center border outline outline-8 outline-zinc-800`}
+              errors.name || errors.passcode ? "border-red-500 border" : null
+            } bg-zinc-800 px-4 py-8 rounded-md flex flex-col gap-4 justify-center items-center`}
           >
             <div className="flex max-w-[258px] flex-col justify-center items-center">
               <label

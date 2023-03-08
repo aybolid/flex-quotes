@@ -94,9 +94,9 @@ const CreateTeam = () => {
             onSubmit={handleSubmit(handleTeamJoin)}
             className={`${
               errors.name || errors.passcode || errors.teamId
-                ? "border-red-500"
-                : "border-cyan-400"
-            } bg-zinc-800 p-8 rounded-md flex flex-col gap-4 justify-center items-center border outline outline-8 outline-zinc-800`}
+                ? "border-red-500 border"
+                : null
+            } bg-zinc-800 p-8 rounded-md flex flex-col gap-4 justify-center items-center`}
           >
             <div className="flex max-w-[258px] flex-col justify-center items-center">
               <label
@@ -128,9 +128,7 @@ const CreateTeam = () => {
             <div className="flex max-w-[258px] flex-col justify-center items-center">
               <label
                 htmlFor="teamIdInput"
-                className={`${
-                  errors.teamId && "text-red-500"
-                } text-xl w-full`}
+                className={`${errors.teamId && "text-red-500"} text-xl w-full`}
               >
                 Enter team ID
               </label>
@@ -140,8 +138,7 @@ const CreateTeam = () => {
                 placeholder="#teamid"
                 type="text"
                 className={`${
-                  errors.teamId &&
-                  "border border-red-600 rounded-b-none"
+                  errors.teamId && "border border-red-600 rounded-b-none"
                 } w-full rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
                 id="teamIdInput"
               />
@@ -170,8 +167,7 @@ const CreateTeam = () => {
                 placeholder="teampasscode12"
                 type="text"
                 className={`${
-                  errors.passcode &&
-                  "border border-red-600 rounded-b-none"
+                  errors.passcode && "border border-red-600 rounded-b-none"
                 } w-full rounded-md bg-zinc-700 px-4 py-2 text-lg focus:outline-none`}
                 id="passcodeInput"
               />

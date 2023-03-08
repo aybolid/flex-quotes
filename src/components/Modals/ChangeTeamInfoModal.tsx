@@ -87,8 +87,8 @@ const ChangeTeamInfoModal: React.FC<{
         animate={{ y: 0, opacity: 1 }}
         initial={{ y: -400, opacity: 0 }}
         className={`${
-          errors.name || errors.passcode ? "border-red-500" : "border-cyan-400"
-        } relative bg-zinc-800 px-8 py-4 rounded-md flex flex-col gap-4 justify-center items-center border outline outline-8 outline-zinc-800`}
+          errors.name || errors.passcode ? "border-red-500 border" : null
+        } relative bg-zinc-800 px-8 py-4 rounded-md flex flex-col gap-4 justify-center items-center`}
       >
         <button onClick={() => displayModal(false)}>
           <MdClose

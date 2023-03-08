@@ -81,7 +81,7 @@ const CreateTeam = () => {
             initial={{ x: 200 }}
             className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-8"
           >
-            <div className="p-6 bg-zinc-800 rounded-md border border-cyan-300 outline outline-8 outline-zinc-800">
+            <div className="p-6 bg-zinc-800 rounded-md">
               <section className="mb-8">
                 <h2 className="flex justify-center items-end gap-2 text-3xl text-cyan-300">
                   {team[0].name}

@@ -149,8 +149,8 @@ const AddQuote = () => {
             </div>
             <section
               className={`${
-                errors.text ? "border-red-500" : "border-cyan-400"
-              } p-6 bg-zinc-800 sm:w-2/3 rounded-md border outline outline-8 outline-zinc-800`}
+                errors.text ? "border-red-500 border" : null
+              } p-6 bg-zinc-800 sm:w-2/3 rounded-md`}
             >
               <form
                 onSubmit={handleSubmit(handleQuoteAdd)}
