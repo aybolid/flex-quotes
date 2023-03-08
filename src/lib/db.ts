@@ -1,4 +1,4 @@
-import { quote } from "@/interfaces/quotes";
+import { dbQuote, quote } from "@/interfaces/quotes";
 import { team } from "@/interfaces/teams";
 import firebase from "./firebase";
 const db = firebase.firestore();
@@ -143,4 +143,33 @@ export const addNewQuote = async (newQuote: quote) => {
 
 export const deleteQuote = (quoteId: string) => {
   return db.collection("quotes").doc(quoteId).delete();
+};
+
+export const rateQuote = async (quoteId: string, userUid: string) => {
+  const quoteSnapshot = await db.collection("quotes").doc(quoteId).get();
+  const quote = quoteSnapshot.data();
+  if (quote?.ratedBy.includes(userUid)) {
+    const newRate: number = quote.rating - 1;
+    const filteredRatedBy = quote.ratedBy.filter(
+      (uid: string) => uid !== userUid
+    );
+
+    db.collection("quotes")
+      .doc(quoteId)
+      .set({ ratedBy: filteredRatedBy }, { merge: true });
+    return db
+      .collection("quotes")
+      .doc(quoteId)
+      .set({ rating: newRate }, { merge: true });
+  } else {
+    const newRate: number = quote?.rating + 1;
+
+    db.collection("quotes")
+      .doc(quoteId)
+      .set({ ratedBy: quote?.ratedBy.concat(userUid) }, { merge: true });
+    return db
+      .collection("quotes")
+      .doc(quoteId)
+      .set({ rating: newRate }, { merge: true });
+  }
 };

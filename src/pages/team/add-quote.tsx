@@ -75,6 +75,7 @@ const AddQuote = () => {
       name: authorArray[2],
       createdAt: new Date().toISOString(),
       rating: 0,
+      ratedBy: [],
       ...data, // quote text
     };
     addNewQuote(newQuote)

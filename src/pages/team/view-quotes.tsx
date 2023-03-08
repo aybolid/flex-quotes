@@ -139,7 +139,7 @@ const ViewQuotes = () => {
                     />
                     <button
                       onClick={() => setSortDesc(!sortDesc)}
-                      className="flex justify-center items-center font-bold gap-1 hover:text-cyan-300"
+                      className="flex justify-center items-center font-semibold gap-1 hover:text-cyan-300"
                     >
                       DATE{" "}
                       {sortDesc ? <TiArrowSortedDown /> : <TiArrowSortedUp />}

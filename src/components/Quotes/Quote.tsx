@@ -1,7 +1,8 @@
 import notify from "@/helpers/toastNotify";
 import { dbQuote } from "@/interfaces/quotes";
-import { deleteQuote } from "@/lib/db";
+import { deleteQuote, rateQuote } from "@/lib/db";
 import { format, parseISO } from "date-fns";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { FC } from "react";
 import { RiDeleteBin7Fill } from "react-icons/ri";
@@ -12,6 +13,34 @@ const Quote: FC<{
   quote: dbQuote;
   displayDelete: boolean;
 }> = ({ displayDelete, quote, allQuotes }) => {
+  const { data: session } = useSession();
+
+  const handleQuoteRate = () => {
+    const filteredQuotes: dbQuote[] = allQuotes.filter((el) => el !== quote);
+    const userUid: string = session?.user?.id as string;
+
+    let updatedQuote: dbQuote;
+    if (quote.ratedBy.includes(userUid)) {
+      updatedQuote = {
+        ...quote,
+        rating: quote.rating - 1,
+        ratedBy: quote.ratedBy.concat(userUid),
+      };
+    } else {
+      updatedQuote = {
+        ...quote,
+        rating: quote.rating + 1,
+        ratedBy: quote.ratedBy.filter((id) => id !== userUid),
+      };
+    }
+
+    const newQuotes: dbQuote[] = filteredQuotes.concat(updatedQuote);
+
+    rateQuote(quote.id, userUid).then(() =>
+      mutate(["/api/quotes", quote.teamUid], newQuotes, true)
+    );
+  };
+
   const handleQuoteDelete = () => {
     const filteredQuotes: dbQuote[] | [] = allQuotes.filter(
       (el) => el !== quote
@@ -42,10 +71,21 @@ const Quote: FC<{
           {format(parseISO(quote.createdAt), "PPpp")}
         </p>
       </div>
-      <p className="w-full p-2 bg-zinc-700 mt-1 sm:mt-4 rounded-md">{quote.text}</p>
+      <p className="w-full p-2 bg-zinc-700 mt-1 sm:mt-4 rounded-md">
+        {quote.text}
+      </p>
       <div className="flex justify-between items-center mt-2">
         {/* // todo rating */}
-        <button></button>
+        <button
+          onClick={handleQuoteRate}
+          className={`${
+            quote.ratedBy.includes(session?.user?.id as string)
+              ? "bg-green-500 hover:bg-green-400"
+              : "bg-zinc-700 hover:bg-zinc-600"
+          } flex justify-center items-center gap-1 text-lg px-2 duration-300 ease-in-out rounded-full active:scale-95`}
+        >
+          {quote.rating} 👍
+        </button>
         <div>
           {displayDelete && (
             <button

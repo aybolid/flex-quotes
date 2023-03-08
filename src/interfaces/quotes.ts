@@ -7,6 +7,7 @@ export interface dbQuote {
   text: string;
   createdAt: string;
   rating: number;
+  ratedBy: string[];
 }
 
 export interface quote {
@@ -17,4 +18,5 @@ export interface quote {
   text: string;
   createdAt: string;
   rating: number;
+  ratedBy: string[];
 }
