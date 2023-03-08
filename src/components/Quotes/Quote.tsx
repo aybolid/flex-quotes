@@ -24,8 +24,8 @@ const Quote: FC<{
   };
 
   return (
-    <div className="p-4 pb-2 bg-zinc-800 even:bg-[#313135] w-full">
-      <div className="flex flex-col md:flex-row justify-between items-end gap-2">
+    <div className="p-2 md:p-4 pb-2 bg-zinc-800 even:bg-[#313135] w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 md:gap-2">
         <div className="flex justify-center items-center gap-2">
           <div className="w-8 h-8 md:w-12 md:h-12 rounded-full overflow-hidden">
             <Image
@@ -38,11 +38,11 @@ const Quote: FC<{
           </div>
           <p className="text-cyan-300 text-xl">{quote.name}</p>
         </div>
-        <p className="text-sm text-center mt-2 text-zinc-400">
+        <p className="text-sm text-center mt- text-zinc-400">
           {format(parseISO(quote.createdAt), "PPpp")}
         </p>
       </div>
-      <p className="w-full p-2 bg-zinc-700 mt-4 rounded-md">{quote.text}</p>
+      <p className="w-full p-2 bg-zinc-700 mt-1 sm:mt-4 rounded-md">{quote.text}</p>
       <div className="flex justify-between items-center mt-2">
         {/* // todo rating */}
         <button></button>

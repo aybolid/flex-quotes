@@ -93,11 +93,11 @@ const ViewQuotes = () => {
           <motion.main
             animate={{ x: 0 }}
             initial={{ x: 200 }}
-            className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-8"
+            className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-4 md:py-8"
           >
-            <section className="p-4 bg-zinc-800 rounded-md w-2/3">
+            <section className="p-2 md:p-4 bg-zinc-800 rounded-md w-full md:w-4/5 lg:w-3/5">
               <h3 className="text-lg mb-1 font-thin md:text-xl">Actions</h3>
-              <div className="flex justify-start items-center gap-4 mb-4">
+              <div className="flex justify-center lg:justify-start items-center gap-4 mb-4">
                 <Link href="/team/add-quote" className="btn-primary">
                   Add Quote 📝
                 </Link>
@@ -106,11 +106,11 @@ const ViewQuotes = () => {
                 </Link>
               </div>
               <h3 className="text-lg mb-1 font-thin md:text-xl">Quotes</h3>
-              <div className="bg-zinc-900 p-4 rounded-md flex flex-col w-full justify-center items-center">
+              <div className="bg-zinc-900 p-2 md:p-4 rounded-md flex flex-col w-full justify-center items-center">
                 {quotes.length ? (
-                  <div className="bg-zinc-800 w-full mb-4 rounded-md flex justify-between items-center gap-4 py-2 px-2">
+                  <div className="bg-zinc-800 w-full mb-2 md:mb-4 rounded-md flex flex-col sm:flex-row justify-between items-center gap-4 py-2 px-2">
                     <Select
-                      className="w-1/3 my-react-select-container"
+                      className="w-full sm:w-3/5 my-react-select-container"
                       classNamePrefix="my-react-select"
                       placeholder="Select quote author..."
                       onChange={(author) =>
@@ -130,9 +130,11 @@ const ViewQuotes = () => {
                 ) : null}
                 <div className="rounded-md overflow-hidden w-full">
                   {!quotes?.length ? (
-                    <p className="text-center w-full text-2xl text-red-500 font-light font-mono">
-                      Your team has no quotes added!
-                    </p>
+                    <div className="w-full h-full flex justify-center items-center">
+                      <p className="bg-zinc-800 p-4 rounded-md text-center text-2xl font-light font-mono">
+                        Your team has no quotes added!
+                      </p>
+                    </div>
                   ) : !author ? (
                     // ! Quotes with sort
                     <QuotesSort

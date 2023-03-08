@@ -79,9 +79,9 @@ const CreateTeam = () => {
           <motion.main
             animate={{ x: 0 }}
             initial={{ x: 200 }}
-            className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-8"
+            className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-4 md:py-2"
           >
-            <div className="p-6 bg-zinc-800 rounded-md">
+            <div className="p-2 md:p-4 bg-zinc-800 rounded-md">
               <section className="mb-8">
                 <h2 className="flex justify-center items-end gap-2 text-3xl text-cyan-300">
                   {team[0].name}
@@ -128,7 +128,7 @@ const CreateTeam = () => {
               </section>
               <section className="mt-4">
                 <h3 className="text-lg mb-1 font-thin md:text-xl">Actions</h3>
-                <div className="grid grid-cols-2 grid-flow-row justify-between items-center gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row justify-between items-center gap-4">
                   <Link href="/team/add-quote" className="btn-primary">
                     Add Quote 📝
                   </Link>

@@ -15,9 +15,9 @@ const QuotesFilterSort: FC<{
 }> = ({ quotes, team, sortDesc, session, author }) => {
   const [itemOffset, setItemOffset] = useState(0);
 
-  const endOffset = itemOffset + 10;
+  const endOffset = itemOffset + 5;
   const currentItems = quotes.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(quotes.length / 10);
+  const pageCount = Math.ceil(quotes.length / 5);
 
   const handlePageClick = (event: any) => {
     // Scroll to top
@@ -25,7 +25,7 @@ const QuotesFilterSort: FC<{
     if (!isBrowser()) return;
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    const newOffset = (event.selected * 10) % quotes.length;
+    const newOffset = (event.selected * 5) % quotes.length;
     setItemOffset(newOffset);
   };
 
@@ -48,20 +48,22 @@ const QuotesFilterSort: FC<{
             }
           />
         ))}
-      <ReactPaginate
-        className="flex justify-center items-center gap-4 font-semibold mt-4 w-full bg-zinc-800 p-2"
-        pageLinkClassName="bg-zinc-700 hover:bg-zinc-600 rounded-md px-2 py-1 ease-in-out duration-150"
-        activeLinkClassName="bg-zinc-500 hover:bg-zinc-500 rounded-md px-2 py-1 ease-in-out duration-150"
-        previousClassName="bg-zinc-700 hover:bg-zinc-600 rounded-md px-2 py-1 ease-in-out duration-150"
-        nextClassName="bg-zinc-700 hover:bg-zinc-600 rounded-md px-2 py-1 ease-in-out duration-150"
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={pageCount}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null!}
-      />
+      {quotes.filter((quote: any) => quote.authorUid === author).length > 5 && (
+        <ReactPaginate
+          className="flex justify-center items-center gap-4 font-semibold mt-2 md:mt-4 w-full bg-zinc-800 p-2"
+          pageLinkClassName="bg-zinc-700 hover:bg-zinc-600 rounded-md px-2 py-1 ease-in-out duration-150 hidden md:block"
+          activeLinkClassName="bg-cyan-600 hover:bg-cyan-500 rounded-md px-2 py-1 ease-in-out duration-150"
+          previousClassName="bg-zinc-700 hover:bg-zinc-600 rounded-md px-2 py-1 ease-in-out duration-150"
+          nextClassName="bg-zinc-700 hover:bg-zinc-600 rounded-md px-2 py-1 ease-in-out duration-150"
+          breakLabel="..."
+          nextLabel="Next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="< Previous"
+          renderOnZeroPageCount={null!}
+        />
+      )}
     </div>
   );
 };

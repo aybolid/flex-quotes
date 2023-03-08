@@ -2,7 +2,6 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-import { MdArrowBackIosNew } from "react-icons/md";
 
 const UserBox: React.FC<{ displayBack: boolean }> = ({ displayBack }) => {
   const { data: session } = useSession();
@@ -34,10 +33,9 @@ const UserBox: React.FC<{ displayBack: boolean }> = ({ displayBack }) => {
         Sign out
       </button>
       {displayBack && (
-        <div className="hidden md:block mt-3">
-          <button onClick={() => router.back()} className="btn-primary">
-            <MdArrowBackIosNew className="mt-[0.9px]" />
-            Go back
+        <div className="mt-3">
+          <button onClick={() => router.push('/')} className="btn-primary">
+            Go Home
           </button>
         </div>
       )}

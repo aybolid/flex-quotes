@@ -124,7 +124,7 @@ const Home = () => {
           </h1>
         </header>
         <motion.main animate={{ x: 0 }} initial={{ x: 200 }}>
-          <div className="bg-zinc-800 rounded-md p-8 flex flex-col justify-center items-center gap-10 border border-cyan-400 outline outline-8 outline-zinc-800">
+          <div className="bg-zinc-800 rounded-md p-8 flex flex-col justify-center items-center gap-10">
             <p className="text-lg text-center">Sign in to view site content.</p>
             <button onClick={() => signIn()} className="btn-primary">
               Sign in <FaSignInAlt className="mt-1" />

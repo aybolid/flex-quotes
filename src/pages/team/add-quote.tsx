@@ -150,7 +150,7 @@ const AddQuote = () => {
             <section
               className={`${
                 errors.text ? "border-red-500 border" : null
-              } p-6 bg-zinc-800 sm:w-2/3 rounded-md`}
+              } p-2 md:p-4 bg-zinc-800 sm:w-2/5 rounded-md`}
             >
               <form
                 onSubmit={handleSubmit(handleQuoteAdd)}
@@ -202,8 +202,8 @@ const AddQuote = () => {
                   >
                     <h3 className="text-2xl text-cyan-300">Quote Preview</h3>
                     <div className="rounded-md border border-dashed border-cyan-300 mt-2">
-                      <div className="p-4 bg-zinc-800 even:bg-[#313135] w-full rounded-md">
-                        <div className="flex flex-col md:flex-row justify-between items-end gap-2">
+                      <div className="p-2 md:p-4 pb-2 bg-zinc-800 even:bg-[#313135] w-full">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 md:gap-2">
                           <div className="flex justify-center items-center gap-2">
                             <div className="w-8 h-8 md:w-12 md:h-12 rounded-full overflow-hidden">
                               <Image
@@ -218,11 +218,11 @@ const AddQuote = () => {
                               {author.split("*")[2]}
                             </p>
                           </div>
-                          <p className="text-sm text-center mt-2 text-zinc-400">
+                          <p className="text-sm text-center mt- text-zinc-400">
                             {"Apr 29, 1453, 12:00:00 AM"}
                           </p>
                         </div>
-                        <p className="w-full p-2 bg-zinc-700 mt-4 rounded-md">
+                        <p className="w-full p-2 bg-zinc-700 mt-1 sm:mt-4 rounded-md">
                           {watch("text")}
                         </p>
                       </div>

@@ -97,7 +97,7 @@ const CreateTeam = () => {
             onSubmit={handleSubmit(handleTeamCreate)}
             className={`${
               errors.name || errors.passcode ? "border-red-500 border" : null
-            } bg-zinc-800 px-4 py-8 rounded-md flex flex-col gap-4 justify-center items-center`}
+            } bg-zinc-800 p-2 sm:p-4 rounded-md flex flex-col gap-4 justify-center items-center`}
           >
             <div className="flex max-w-[258px] flex-col justify-center items-center">
               <label
