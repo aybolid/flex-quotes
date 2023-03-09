@@ -7,13 +7,19 @@ import { useSession } from "next-auth/react";
 import ReactLoading from "react-loading";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
-import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+import {
+  TiArrowSortedDown,
+  TiArrowSortedUp,
+  TiArrowUnsorted,
+} from "react-icons/ti";
 import Select from "react-select";
 import Image from "next/image";
 import { dbQuote } from "@/interfaces/quotes";
 import QuotesSort from "@/components/Quotes/QuotesSort";
 import QuotesFilterSort from "@/components/Quotes/QuotesFilterSort";
 import { NextSeo } from "next-seo";
+import { boolean } from "yup";
+import { UNDEFINED } from "swr/_internal";
 
 const title: string = "View Quotes - Flex Quotes";
 const url: string = "https://flexquotes.vercel.app/team/view-quotes";

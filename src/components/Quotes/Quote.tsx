@@ -4,7 +4,7 @@ import { deleteQuote, rateQuote } from "@/lib/db";
 import { format, parseISO } from "date-fns";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { mutate } from "swr";
 
@@ -15,21 +15,25 @@ const Quote: FC<{
 }> = ({ displayDelete, quote, allQuotes }) => {
   const { data: session } = useSession();
 
+  const [rating, setRating] = useState<number>(quote.rating);
+
   const handleQuoteRate = () => {
     const filteredQuotes: dbQuote[] = allQuotes.filter((el) => el !== quote);
     const userUid: string = session?.user?.id as string;
 
     let updatedQuote: dbQuote;
     if (quote.ratedBy.includes(userUid)) {
+      setRating(rating - 1)
       updatedQuote = {
         ...quote,
-        rating: quote.rating - 1,
+        rating: rating,
         ratedBy: quote.ratedBy.concat(userUid),
       };
     } else {
+      setRating(rating + 1)
       updatedQuote = {
         ...quote,
-        rating: quote.rating + 1,
+        rating: rating,
         ratedBy: quote.ratedBy.filter((id) => id !== userUid),
       };
     }
@@ -84,7 +88,7 @@ const Quote: FC<{
               : "bg-zinc-700 hover:bg-zinc-600"
           } flex justify-center items-center gap-1 text-lg px-2 duration-300 ease-in-out rounded-full active:scale-95`}
         >
-          {quote.rating} 👍
+          {rating} 👍
         </button>
         <div>
           {displayDelete && (
