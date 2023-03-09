@@ -16,7 +16,13 @@ const QuotesFilterSort: FC<{
   const [itemOffset, setItemOffset] = useState(0);
 
   const endOffset = itemOffset + 5;
-  const currentItems = quotes.slice(itemOffset, endOffset);
+  const currentItems = quotes
+    .sort((a: any, b: any) =>
+      sortDesc
+        ? compareAsc(parseISO(a.createdAt), parseISO(b.createdAt))
+        : compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
+    )
+    .slice(itemOffset, endOffset);
   const pageCount = Math.ceil(quotes.length / 5);
 
   const handlePageClick = (event: any) => {
@@ -33,11 +39,6 @@ const QuotesFilterSort: FC<{
     <div>
       {currentItems
         .filter((quote: any) => quote.authorUid === author)
-        .sort((a: any, b: any) =>
-          sortDesc
-            ? compareAsc(parseISO(a.createdAt), parseISO(b.createdAt))
-            : compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
-        )
         .map((quote) => (
           <Quote
             key={quote.id}

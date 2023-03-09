@@ -15,7 +15,13 @@ const QuotesSort: FC<{
   const [itemOffset, setItemOffset] = useState(0);
 
   const endOffset = itemOffset + 5;
-  const currentItems = quotes.slice(itemOffset, endOffset);
+  const currentItems = quotes
+    .sort((a: any, b: any) =>
+      sortDesc
+        ? compareAsc(parseISO(a.createdAt), parseISO(b.createdAt))
+        : compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
+    )
+    .slice(itemOffset, endOffset);
   const pageCount = Math.ceil(quotes.length / 5);
 
   const handlePageClick = (event: any) => {
@@ -30,22 +36,14 @@ const QuotesSort: FC<{
 
   return (
     <div>
-      {currentItems
-        .sort((a: any, b: any) =>
-          sortDesc
-            ? compareAsc(parseISO(a.createdAt), parseISO(b.createdAt))
-            : compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
-        )
-        .map((quote) => (
-          <Quote
-            key={quote.id}
-            allQuotes={quotes}
-            quote={quote}
-            displayDelete={
-              team[0].creatorId === session?.user?.id ? true : false
-            }
-          />
-        ))}
+      {currentItems.map((quote) => (
+        <Quote
+          key={quote.id}
+          allQuotes={quotes}
+          quote={quote}
+          displayDelete={team[0].creatorId === session?.user?.id ? true : false}
+        />
+      ))}
       {quotes.length > 5 && (
         <ReactPaginate
           className="flex justify-center items-center gap-4 font-semibold mt-2 md:mt-4 w-full bg-zinc-800 p-2"
