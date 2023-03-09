@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import UserBox from "@/components/UserBox";
-import { useRouter } from "next/router";
 import useSWR from "swr";
 import { fetcherWithId } from "@/helpers/fetchers";
 import { useSession } from "next-auth/react";
@@ -10,7 +9,6 @@ import { ReactElement, useState } from "react";
 import {
   TiArrowSortedDown,
   TiArrowSortedUp,
-  TiArrowUnsorted,
 } from "react-icons/ti";
 import Select from "react-select";
 import Image from "next/image";
@@ -18,14 +16,11 @@ import { dbQuote } from "@/interfaces/quotes";
 import QuotesSort from "@/components/Quotes/QuotesSort";
 import QuotesFilterSort from "@/components/Quotes/QuotesFilterSort";
 import { NextSeo } from "next-seo";
-import { boolean } from "yup";
-import { UNDEFINED } from "swr/_internal";
 
 const title: string = "View Quotes - Flex Quotes";
 const url: string = "https://flexquotes.vercel.app/team/view-quotes";
 
 const ViewQuotes = () => {
-  const router = useRouter();
   const { data: session } = useSession();
 
   // Sort and filter
@@ -36,7 +31,6 @@ const ViewQuotes = () => {
     session ? ["/api/team", session.user?.id] : null,
     fetcherWithId
   );
-
   const { data: teamMembers, isLoading: isLoadingMembers } = useSWR(
     team?.length ? ["/api/members", team[0].teamUid] : null,
     fetcherWithId

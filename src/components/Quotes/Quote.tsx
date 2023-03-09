@@ -82,7 +82,7 @@ const Quote: FC<{
             quote.ratedBy.includes(session?.user?.id as string)
               ? "bg-green-500 hover:bg-green-400"
               : "bg-zinc-700 hover:bg-zinc-600"
-          } flex justify-center items-center gap-1 text-lg px-2 duration-300 ease-in-out rounded-full active:scale-95`}
+          } flex justify-center items-center gap-1 text-lg px-2 duration-100 ease-in-out rounded-full active:scale-95`}
         >
           {quote.rating} 👍
         </button>
