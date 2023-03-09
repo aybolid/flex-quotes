@@ -11,13 +11,32 @@ import logo from "../../../public/logo.svg";
 import Image from "next/image";
 import { SiDiscord, SiGithub } from "react-icons/si";
 import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/router";
 
 const title: string = "Sign In - Flex Quotes";
 const url: string = "https://flexquotes.vercel.app/auth/signin";
 
+const errors: any = {
+  Signin: "Try signing with a different account.",
+  OAuthSignin: "Try signing with a different account.",
+  OAuthCallback: "Try signing with a different account.",
+  OAuthCreateAccount: "Try signing with a different account.",
+  EmailCreateAccount: "Try signing with a different account.",
+  Callback: "Try signing with a different account.",
+  OAuthAccountNotLinked:
+    "To confirm your identity, sign in with the same account you used originally.",
+  EmailSignin: "Check your email address.",
+  CredentialsSignin:
+    "Sign in failed. Check the details you provided are correct.",
+  default: "Unable to sign in.",
+};
+
 export default function SignIn({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+  const query = router.query as unknown as any;
+
   return (
     <>
       <NextSeo
@@ -43,14 +62,14 @@ export default function SignIn({
           initial={{ x: 200 }}
           className="flex flex-col justify-center items-center w-full gap-8 md:gap-16 py-4 md:py-8"
         >
-          <section className="bg-zinc-800 rounded-md p-2 md:p-4 flex flex-col justify-center items-center gap-8">
+          <section className={`${query.error && 'border border-red-500'} bg-zinc-800 rounded-md p-2 md:p-4 flex flex-col justify-center items-center gap-8`}>
             <div className="flex flex-col justify-center items-center">
               <div className="w-20 h-20">
                 <Image src={logo} width={300} height={300} alt="Logo" />
               </div>
               <h2 className="text-4xl font-thin text-center">Flex Quotes</h2>
             </div>
-            <div className="flex flex-col justify-center items-center gap-4">
+            <div className="flex flex-col max-w-xs justify-center items-center gap-4">
               {Object.values(providers).map((provider) => (
                 <div key={provider.name}>
                   <button
@@ -68,6 +87,13 @@ export default function SignIn({
                   </button>
                 </div>
               ))}
+              {query.error && (
+                <div className="bg-zinc-900 p-2 md:p-4 rounded-md border border-dashed border-red-500">
+                  <p className="text-center font-mono text-red-500">
+                    {errors[query.error] ?? errors.default}
+                  </p>
+                </div>
+              )}
             </div>
           </section>
         </motion.main>
