@@ -1,5 +1,5 @@
 import notify from "@/helpers/toastNotify";
-import { dbQuote } from "@/interfaces/quotes";
+import { dbQuote, quote } from "@/interfaces/quotes";
 import { deleteQuote, rateQuote } from "@/lib/db";
 import { format, parseISO } from "date-fns";
 import { useSession } from "next-auth/react";
@@ -16,28 +16,25 @@ const Quote: FC<{
   const { data: session } = useSession();
 
   const handleQuoteRate = () => {
-    const filteredQuotes: dbQuote[] = allQuotes.filter((el) => el !== quote);
     const userUid: string = session?.user?.id as string;
 
-    let updatedQuote: dbQuote;
-    if (quote.ratedBy.includes(userUid)) {
-      updatedQuote = {
-        ...quote,
-        rating: quote.rating - 1,
-        ratedBy: quote.ratedBy.concat(userUid),
-      };
+    const quoteIndex = allQuotes.findIndex((q) => (q.id = quote.id));
+
+    let updatedQuotes: quote[] = allQuotes.slice();
+    if (allQuotes[quoteIndex].ratedBy.includes(userUid)) {
+      if (quote.rating - 1 < 0) return;
+      updatedQuotes[quoteIndex].rating = quote.rating - 1;
+      updatedQuotes[quoteIndex].ratedBy = updatedQuotes[
+        quoteIndex
+      ].ratedBy.filter((user) => user !== userUid);
     } else {
-      updatedQuote = {
-        ...quote,
-        rating: quote.rating + 1,
-        ratedBy: quote.ratedBy.filter((id) => id !== userUid),
-      };
+      updatedQuotes[quoteIndex].rating = quote.rating + 1;
+      updatedQuotes[quoteIndex].ratedBy =
+        updatedQuotes[quoteIndex].ratedBy.concat(userUid);
     }
 
-    const newQuotes: dbQuote[] = filteredQuotes.concat(updatedQuote);
-
     rateQuote(quote.id, userUid).then(() =>
-      mutate(["/api/quotes", quote.teamUid], newQuotes, true)
+      mutate(["/api/quotes", quote.teamUid], updatedQuotes, true)
     );
   };
 

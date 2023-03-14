@@ -17,6 +17,7 @@ import { addNewQuote } from "@/lib/db";
 import Link from "next/link";
 import { quote } from "@/interfaces/quotes";
 import { NextSeo } from "next-seo";
+import { format, parseISO } from "date-fns";
 
 const title: string = "Add New Quote - Flex Quotes";
 const url: string = "https://flexquotes.vercel.app/team/add-quote";
@@ -238,7 +239,7 @@ const AddQuote = () => {
                             </p>
                           </div>
                           <p className="text-sm text-center mt- text-zinc-400">
-                            {"Apr 29, 1453, 12:00:00 AM"}
+                            {format(parseISO(new Date().toISOString()), "PPpp")}
                           </p>
                         </div>
                         <p className="w-full p-2 bg-zinc-700 mt-1 sm:mt-4 rounded-md">
